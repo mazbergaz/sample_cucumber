@@ -36,15 +36,20 @@ public class AesEncryptor {
 		return decrypt(text, encryptorKey);
 	}
 
-	public String encrypt(String textToEncrypt, String encryptorKey) throws Exception {
+	private String encrypt(String textToEncrypt, String encryptorKey) throws Exception {
 		SecretKeySpec keySpec = getKey(encryptorKey);
 		Cipher cipher = Cipher.getInstance(algorithmName);
 		cipher.init(Cipher.ENCRYPT_MODE, keySpec);
 		byte[] encryptedTextBytes = cipher.doFinal(textToEncrypt.getBytes(ENCODING));
-		return new Base64().encodeAsString(encryptedTextBytes);
+		
+		//wrong result
+		return new Base64().encodeAsString(encryptedTextBytes) + "_";
+		
+		//correct result
+		//return new Base64().encodeAsString(encryptedTextBytes);
 	}
 
-	public String decrypt(String textToDecrypt, String encryptorKey) throws Exception {
+	private String decrypt(String textToDecrypt, String encryptorKey) throws Exception {
 		SecretKeySpec keySpec = getKey(encryptorKey);
 		Cipher cipher = Cipher.getInstance(algorithmName);
 		cipher.init(Cipher.DECRYPT_MODE, keySpec);
@@ -53,7 +58,7 @@ public class AesEncryptor {
 		return new String(decryptedTextBytes);
 	}
 	
-	public SecretKeySpec getKey(String myKey){
+	private SecretKeySpec getKey(String myKey){
 		SecretKeySpec secretKey = null;
         try {
         	byte[] key = myKey.getBytes(ENCODING);
@@ -85,8 +90,8 @@ public class AesEncryptor {
 		this.encryptorKey = encryptorKey;
 	}
 	
-	public void setTextToEncrypt(String textToEncrypt){
-		this.text = textToEncrypt;
+	public void setText(String text){
+		this.text = text;
 	}
 
 }
